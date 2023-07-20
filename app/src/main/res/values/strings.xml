@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Boarding Pass Scanner</string>
+    <string name="logo_description">Logo Description</string>
+    <string name="title_boarding_pass_information">Boarding Pass Information</string>
+    <string name="back">Back</string>
+</resources>
