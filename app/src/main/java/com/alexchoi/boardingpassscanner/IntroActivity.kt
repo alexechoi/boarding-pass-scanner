@@ -1,6 +1,7 @@
 package com.alexchoi.boardingpassscanner
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -17,4 +18,5 @@ class IntroActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
 }
