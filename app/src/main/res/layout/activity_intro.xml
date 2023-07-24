@@ -44,6 +44,21 @@
         app:layout_constraintTop_toBottomOf="@id/intro_text"
         android:layout_marginTop="50dp"/>
 
+    <Button
+        android:id="@+id/select_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Image from Gallery"
+        android:textColor="@color/white"
+        android:padding="16dp"
+        android:textSize="18sp"
+        style="?attr/borderlessButtonStyle"
+        android:background="@drawable/rounded_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/start_scanning_button"
+        android:layout_marginTop="30dp"/>
+
     <TextView
         android:id="@+id/made_by_text"
         android:layout_width="wrap_content"

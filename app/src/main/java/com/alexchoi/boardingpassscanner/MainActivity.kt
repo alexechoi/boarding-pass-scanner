@@ -24,6 +24,13 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 
+import android.graphics.BitmapFactory
+import android.net.Uri
+import com.google.android.gms.vision.Frame
+import com.google.android.gms.vision.barcode.Barcode
+import com.google.android.gms.vision.barcode.BarcodeDetector
+import java.io.InputStream
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -61,6 +68,38 @@ class MainActivity : AppCompatActivity() {
                         }
                     })
             }
+        }
+
+        // Check if we got an image URI from the intent
+        intent.getStringExtra("selectedImage")?.let { selectedImage ->
+            val imageUri = Uri.parse(selectedImage)
+            processImageFromGallery(imageUri)
+        }
+    }
+
+    private fun processImageFromGallery(imageUri: Uri) {
+        val imageStream: InputStream? = contentResolver.openInputStream(imageUri)
+        val selectedImage = BitmapFactory.decodeStream(imageStream)
+        val barcodeDetector = BarcodeDetector.Builder(this)
+            .setBarcodeFormats(Barcode.PDF417)  // Modify this if you want to detect other barcode types
+            .build()
+        if (!barcodeDetector.isOperational) {
+            Toast.makeText(this, "Could not set up the detector!", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val frame = Frame.Builder().setBitmap(selectedImage).build()
+        val barcodes = barcodeDetector.detect(frame)
+
+        if (barcodes.size() > 0) {
+            // Assuming the first detected barcode is the one we want
+            val barcodeValue = barcodes.valueAt(0).displayValue
+            val intent = Intent(this, ResultsActivity::class.java)
+            intent.putExtra("scannedInfo", barcodeValue)  // Pass the barcode data
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "No barcode could be found in the selected image", Toast.LENGTH_LONG).show()
+            finish()  // Go back to the previous activity
         }
     }
 
@@ -168,4 +207,5 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
 }
